@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            font-weight: 600;
+            color: #fff;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            width: 90%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .form-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-buttons button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            width: 48%;
+        }
+
+
+        .form-buttons button:hover {
+            background: linear-gradient(135deg, #0072ff, #00c6ff);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .form-buttons button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Music</h1>
+        <form action="/addmusic" method="POST" enctype="multipart/form-data">
+            <label>Song Name:</label>
+            <input type="text" name="song_name" placeholder="Enter Song Name" required>
+
+            <label>Author:</label>
+            <input type="text" name="author" placeholder="Enter Author Name" required>
+
+            <label>Music File:</label>
+            <input type="file" name="music" accept="audio/*" required>
+
+            <label>Cover Image (optional):</label>
+            <input type="file" name="picture" accept="image/*">
+
+            <label>Lyrics (optional):</label>
+            <textarea name="lyrics" placeholder="Write the lyrics here..."></textarea>
+
+            
+
+            <div class="form-buttons">
+                <button style="background: linear-gradient(135deg, #f00000, #ff4e50);" type="button" onclick="window.location.href='/'">Cancel</button>
+                <button type="submit">Upload Music</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

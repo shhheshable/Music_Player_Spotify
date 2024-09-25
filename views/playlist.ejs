@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            height: 800px;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            position: relative;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header-container h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1db954;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-container button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            background: #1db954;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background: #1aa34a;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 25px;
+            font-weight: 500;
+            color: #f7f7f7;
+        }
+
+        p {
+            font-size: 10px;
+        }
+
+        .music-list-container {
+            height: 650px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 20px;
+        }
+
+        .music-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .music-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .music-item:hover {
+            transform: scale(1.02);
+        }
+
+        .music-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-item h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .music-item p {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+
+        /* Scrollbar styling */
+        .music-list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .music-list-container::-webkit-scrollbar-thumb {
+            background: #1db954;
+            border-radius: 10px;
+        }
+
+        .music-list-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: 95%;
+            }
+
+            .music-item img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .music-item h3 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1>My Music Player</h1>
+            <div class="button-container">
+                <button onclick="window.location.href='/'">Home</button>
+                <button onclick="window.location.href='/addmusic'">Add Music</button>
+            </div>
+        </div>
+
+        <h2>My Playlist</h2>
+        <div class="music-list-container">
+            <ul class="music-list">
+                <% if (musicList.length > 0) { %>
+                    <% musicList.forEach((music) => { %>
+                        <li class="music-item">
+                            <a href="/playlistplay/<%= music.id %>">
+                                <% if (music.picture_path) { %>
+                                    <img src="/<%= music.picture_path %>" alt="Cover Image">
+                                <% } %>
+                                <div>
+                                    <h3><%= music.song_name %></h3>
+                                    <p><%= music.author %></p>
+                                </div>
+                            </a>
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <p>No music available. Please add some!</p>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+
+</head>
+<body>
+    <h1>Music Player1</h1>
+
+    <!-- Upload form -->
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="music" accept="audio/*" required />
+        <button type="submit">Upload Music</button>
+    </form>
+
+    <hr>
+
+    <!-- Music List -->
+    <h2>Available Tracks</h2>
+    <ul>
+        <% musicList.forEach((music) => { %>
+            <li>
+                <audio controls>
+                    <source src="<%= music.file_path %>" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

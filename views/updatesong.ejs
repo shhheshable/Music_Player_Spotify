@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Song</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevents scrolling on the body */
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            color: white;
+            max-height: 90vh; /* Set a maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .song-container img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .song-container img:hover {
+            transform: scale(1.05);
+        }
+
+        audio {
+            margin: 20px 0;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 90%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .form-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-buttons button {
+            padding: 12px 20px;
+        border: none;
+        border-radius: 50px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .form-buttons button:hover {
+            background: linear-gradient(135deg, #0072ff, #00c6ff);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 50px;
+            background: #555;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #444;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .form-buttons button {
+                font-size: 14px;
+            }
+        }
+        .container img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .delete-button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ff4e50, #f00000); /* Red gradient for delete */
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        width: 100%; /* Full width to match other buttons */
+    }
+
+    .delete-button:hover {
+        background: linear-gradient(135deg, #f00000, #ff4e50);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Song</h1>
+        <h2><%= song.song_name %></h2>
+        <h3>by <%= song.author %></h3>
+        
+        <% if (song.picture_path) { %>
+            <img src="/<%= song.picture_path %>" alt="Cover Image">
+        <% } %>
+        
+        <audio controls>
+            <source src="/<%= song.file_path %>" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+
+        <form action="/update/<%= song.id %>" method="POST">
+            <input type="text" name="song_name" value="<%= song.song_name %>" placeholder="Enter Song Name" required>
+            <input type="text" name="author" value="<%= song.author %>" placeholder="Enter Author Name" required>
+            <textarea name="lyrics" placeholder="Write the lyrics here..." required><%= song.lyrics %></textarea>
+            <div class="form-buttons">
+                <button type="submit">Update Song</button>
+                
+                
+            </div>
+        </form>
+        <br>
+        <form action="/delete/<%= song.id %>" method="POST" style="display: inline;">
+                    <button type="submit" class="delete-button">Delete Song</button>
+                </form>
+        
+        <button class="back-button" onclick="window.location.href='/playsong/<%= song.id %>'">Back to Home</button>
+    </div>
+</body>
+</html>

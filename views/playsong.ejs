@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover; /* Ensure background image covers entire page */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Make background fixed on scroll */
+        }
+
+        /* Overlay for song details and controls */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for text visibility */
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Align content to the left */
+            text-align: left; /* Justify text to the left */
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Align items vertically */
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        .playlist {
+            text-transform: capitalize;
+            margin-left: 10px; /* Space between info and playlist name */
+        }
+
+        .song-details {
+            margin-top: 20%;
+            margin-bottom: 10%;
+            padding-left: 20px; /* Add padding to move song details slightly inward */
+        }
+
+        .song-title {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .artist-name {
+            font-size: 24px;
+            color: #b3b3b3;
+        }
+
+        /* Move the audio player lower and make it smaller */
+        .audio-container {
+            width: 90%; /* Width of the audio player */
+            margin: 50px auto 0; /* Center the audio player and set top margin */
+        }
+
+        .audio-container audio {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Buttons in a row */
+        .row-container {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+            margin-top: 10px; /* Margin above buttons */
+        }
+
+        .action-button {
+            padding: 10px 20px; /* Padding for buttons */
+            font-size: 16px; /* Font size */
+            color: white; /* Text color */
+            background-color: #1db954; /* Button color */
+            border: none; /* Remove border */
+            border-radius: 25px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+
+        .action-button:hover {
+            background-color: #1db954; /* Darker shade on hover */
+        }
+
+        /* Sidebar for Lyrics */
+        .sidebar {
+            width: 500px; /* Width of the sidebar */
+            position: absolute;
+            top: 80px; /* Adjust top position */
+            right: 20px; /* Right margin */
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            height: 620px;
+        }
+
+        textarea {
+            width: 100%; /* Full width */
+            height: 600px; /* Height of the textarea */
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+            color: white; /* Text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Inner padding */
+            resize: none; /* Prevent resizing */
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px; /* Font size */
+        }
+    </style>
+</head>
+
+<body style="background-image: url('/<%= song.picture_path %>');">
+    <div class="overlay">
+        <!-- Top Bar for Playlist Information -->
+        <div class="top-bar">
+            <span class="playlist-info">PLAYING FROM PLAYLIST</span>
+            <span class="playlist">pnd, bryson tiller, drake, frank ocean, brent faiyaz, future</span>
+
+            <div class="top-bar-buttons">
+                <button class="action-button" onclick="window.location.href='/'">Home</button>
+                <button class="action-button" onclick="window.location.href='/playlist'">Play List</button>
+                <button class="action-button" onclick="window.location.href='/addmusic'">Add Music</button>
+            </div>
+        </div>
+
+        <!-- Song Details Section (Justified to the left) -->
+        <div class="song-details">
+            <h1 class="song-title"><%= song.song_name %></h1>
+            <p class="artist-name"><%= song.author %></p>
+
+            <!-- Buttons in a row -->
+            <div class="row-container">
+                <button class="action-button" onclick="window.location.href='/update/<%= song.id %>'">Update Song</button>
+
+                <form action="/add-to-playlist" method="POST">
+                    <input type="hidden" name="song_id" value="<%= song.id %>">
+                    <button class="action-button" type="submit">Add to Playlist</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Audio player (Smaller and lower) -->
+        <div class="audio-container">
+            <audio id="audioPlayer" controls>
+                <source src="/<%= song.file_path %>" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Sidebar for Lyrics -->
+    <div class="sidebar">
+        <textarea name="lyrics" placeholder="Write the lyrics here..." readonly required><%= song.lyrics %></textarea>
+    </div>
+</body>
+
+</html>
